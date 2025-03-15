@@ -1,0 +1,52 @@
+﻿@using TravelGroupAssignment1.Areas.FlightManagement.Models;
+
+@model List<FlightBooking>
+@{
+    ViewData["Title"] = "List of Passengers";
+}
+
+<h2>@ViewData["Title"]</h2>
+<a asp-action="Create" class="btn btn-primary">Add Flight <i class="fa-solid fa-plus"></i></a>
+<a asp-controller="Flight" asp-action="Index" class="btn btn-primary">Flights<i class="fa-solid fa-plus"></i></a>
+
+@if (Model.Any()) // check if Model is null. 'Model' is reserved keyword to access the model
+{
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>Flight ID</th>
+                <th>AirLine</th>
+                <th>Price</th>
+                <th>From</th>
+                <th>To</th>
+                <th>DepartTime</th>
+                <th>ArrivalTime</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var flight in Model)
+            {
+                <tr>
+                    
+                    
+                    <td>
+                        <a asp-controller="FlightBooking" asp-action="Index" asp-route-flightId="@flight.FlightId" class="btn btn.sm btn-secondary" role="button">Bookings<i class="fa-solid fa-list-check"></i></a>
+
+                        <a asp-action="Details" asp-route-flightId="@flight.FlightId" class="btn btn.sm btn-secondary" role="button">Details <i class="fa-solid fa-circle-info"></i></a>
+                        <a asp-action="Edit" asp-route-flightId="@flight.FlightId" class="btn btn.sm btn-secondary" role="button">Edit <i class="fa-regular fa-pen-to-square"></i></a>
+                        <a asp-action="Delete" asp-route-flightId="@flight.FlightId" class="btn btn.sm btn-danger" role="button">Delete <i class="fa-solid fa-circle-xmark"></i></a>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+}
+else
+{
+    <p>Please add a Passenger to your flight</p>
+}

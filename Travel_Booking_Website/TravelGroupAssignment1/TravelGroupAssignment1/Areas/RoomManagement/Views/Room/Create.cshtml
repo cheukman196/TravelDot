@@ -1,0 +1,73 @@
+﻿@using TravelGroupAssignment1.Areas.RoomManagement.Models;
+
+@model Room 
+
+@{
+    // Razor block
+    ViewData["Title"] = "Create Room"; 
+    string? hotelName = ViewBag.HotelName as string;
+}
+
+<h2>@ViewData["Title"]</h2>
+<h4>@hotelName</h4>
+
+<form asp-action="CreateRoom" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-warning"></div>
+
+    <div>
+        <label asp-for="Name" class="control-label">Room Name</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="Capacity" class="control-label">Capacity (persons)</label>
+        <select asp-for="Capacity" class="form-control">
+            <option value="">Select Room Capacity</option>
+            @for (int i = 1; i <= 10; i++)
+            {
+                <option value="@i">@i</option>
+            }
+        </select>
+    </div>
+
+
+    <div>
+        <label asp-for="BedDescription" class="control-label">Bed Description</label>
+        <input asp-for="BedDescription" class="form-control" />
+        <span asp-validation-for="BedDescription" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="RoomSize" class="control-label">Room Size (sq ft)</label>
+        <input asp-for="RoomSize" class="form-control" />
+        <span asp-validation-for="RoomSize" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="PricePerNight" class="control-label">Price / Night</label>
+        <input asp-for="PricePerNight" class="form-control" />
+        <span asp-validation-for="PricePerNight" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="Amenities" class="control-label"></label>
+        <input asp-for="Amenities" class="form-control" />
+        <span asp-validation-for="Amenities" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        @Html.HiddenFor(r => r.HotelId)
+        <input type="submit" value="Create" class="btn btn-primary" />
+        <a asp-action="Index" asp-route-hotelId="@Model.HotelId" class="btn btn-secondary">Cancel</a>
+    </div>
+
+
+</form>
+
+<!-- Validation scripts (if any) -->
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

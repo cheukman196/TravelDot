@@ -1,0 +1,133 @@
+﻿@using TravelGroupAssignment1.Areas.HotelManagement.Models;
+
+@model List<Hotel>
+
+@{
+    ViewData["Title"] = "List of Hotels";
+    string? searchLocation = ViewBag.Location as string;
+    int searchCapacity = ViewBag.Capacity as int? ?? 0;
+    bool searchValid = ViewBag.SearchValid as bool? ?? false;
+    DateTime searchCheckInDate = ViewBag.CheckInDate != null ? ViewBag.CheckInDate : DateTime.Now;
+    DateTime searchCheckOutDate = ViewBag.CheckOutDate != null ? ViewBag.CheckOutDate : DateTime.Now.AddDays(2);
+    string? location = ViewContext.HttpContext.Request.Query["location"].Count > 0 ? ViewContext.HttpContext.Request.Query["location"] : "";
+    string? startDate = ViewContext.HttpContext.Request.Query["startDate"].Count > 0 ? ViewContext.HttpContext.Request.Query["startDate"] : DateTime.Now.ToString("yyyy-MM-dd");
+    string? endDate = ViewContext.HttpContext.Request.Query["endDate"].Count > 0 ? ViewContext.HttpContext.Request.Query["endDate"] : DateTime.Now.AddDays(2).ToString("yyyy-MM-dd");
+    string? capacity = ViewContext.HttpContext.Request.Query["capacity"].Count > 0 ? ViewContext.HttpContext.Request.Query["capacity"] : "2";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+<br />
+@if (this.User.IsInRole("SuperAdmin") || this.User.IsInRole("Admin"))
+{
+    Layout = "_HotelSearchItem";
+    <br />
+    <a asp-controller="Hotel" asp-action="Create" class="btn btn-primary">Create new Hotel</a>
+    <br />
+    @if (Model.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var hotel in Model)
+                {
+                    <tr>
+                        <td>@hotel.HotelId</td>
+                        <td>@hotel.HotelName</td>
+                        <td>@hotel.Description</td>
+                        <td>
+                            <a asp-area="RoomManagement" asp-controller="Room" asp-action="Index" asp-route-id="@hotel.HotelId" class="btn btn-success">Rooms</a>
+                            <a asp-controller="Hotel" asp-action="Details" asp-route-id="@hotel.HotelId" class="btn btn-info">Details</a>
+                            <a asp-controller="Hotel" asp-action="Edit" asp-route-id="@hotel.HotelId" class="btn btn-warning">Edit</a>
+                            <a asp-controller="Hotel" asp-action="Delete" asp-route-id="@hotel.HotelId" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No Hotels Found</p>
+
+    }
+}
+else
+{
+    <h3>List of Hotels</h3>
+    <!-- Hotel Card -->
+    @if (Model.Any())
+    {
+        <div class="row" id="hotelList">
+            @foreach (var hotel in Model)
+            {
+
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="card shadow" style="width: 18rem; margin-bottom: 20px;">
+                        <a asp-controller="Room" asp-action="Search" asp-route-hotelId="@hotel.HotelId" asp-route-capacity="@capacity" asp-route-checkInDate="@startDate" asp-route-checkOutDate="@endDate" class="card-link">
+                            <img id="@hotel.HotelId" src="https://cdn.britannica.com/96/115096-050-5AFDAF5D/Bellagio-Hotel-Casino-Las-Vegas.jpg" class="card-img-top img-fluid" alt="Hotel Room" width="300" height="200">
+                            <div class="card-body" style="max-height: 150px; overflow: auto;">
+                                <h4 class="card-title">@hotel.HotelName</h4>
+                                <p class="card-text">@hotel.Description</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <i class="fa-solid fa-location-dot"></i> @hotel.Location
+                                </li>
+                            </ul>
+                        </a>
+                    </div>
+                </div>
+
+
+                <script>
+                    (async () => {
+                        const topic = 'hotel';
+                        const accessKey = 'WOgcw4SyGE-wP7k667o8j0Z3wgySWFLIaSr89ZOUkM4';
+
+                        // Make API request to fetch random image by topic for this hotel
+                        const response = await fetch(`https://api.unsplash.com/photos/random?query=${topic}&client_id=${accessKey}`);
+                        const data = await response.json();
+                        const imageUrl = data.urls.regular;
+
+                        // Set the image src attribute dynamically for this hotel
+                        document.getElementById('@hotel.HotelId').src = imageUrl;
+                    })();
+                </script>
+
+            }
+        </div>
+    }
+
+
+    else
+    {
+        @if (searchValid)
+        {
+            <br />
+            <h4>Sorry, No Hotels match your search results</h4>
+        }
+        else
+        {
+            <br />
+            <h4>Sorry, No Hotels available at the momement</h4>
+        }
+
+    }
+}
+
+@section Scripts {
+    <script src="~/js/hotelSearch.js"></script>
+}
+
+
+

@@ -1,0 +1,85 @@
+﻿@using System.Globalization
+@using TravelGroupAssignment1.Areas.CarManagement.Models;
+
+@model CarBooking
+@{
+    ViewData["Title"] = "Car Booking Details";
+}
+
+<h2>@ViewData["Title"]</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="https://www.kbb.com/wp-content/uploads/2022/10/2023-toyota-rav4-prime-frt-3qtr.jpg?w=918" class="img-fluid" alt="Car">
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">@Model.Car?.Make @Model.Car?.Model</h3>
+                    <p class="card-text">@Model.Car?.Type</p>
+
+                    <dl class="row">
+                        <dt class="col-sm-3">Price/Day</dt>
+                        <dd class="col-sm-9">$@Model.Car?.PricePerDay</dd>
+
+                        <dt class="col-sm-3">Max Passengers</dt>
+                        <dd class="col-sm-9">@Model.Car?.MaxPassengers</dd>
+
+                        <dt class="col-sm-3">Transmission</dt>
+                        <dd class="col-sm-9">@Model.Car?.Transmission</dd>
+
+                        <dt class="col-sm-3">Air Conditioning</dt>
+                        <dd class="col-sm-9">@(Model.Car.HasAirConditioning ? "Yes" : "No")</dd>
+
+                        <dt class="col-sm-3">Unlimited Mileage</dt>
+                        <dd class="col-sm-9">@(Model.Car.HasUnlimitedMileage ? "Yes" : "No")</dd>
+
+                        <dt class="col-sm-3">Rental Company</dt>
+                        <dd class="col-sm-9">
+                            <a asp-controller="CarRentalCompany" asp-action="Details" asp-route-id="@Model.Car?.CompanyId" class="btn btn-outline-info">
+                                @(Model.Car?.Company != null ? @Model.Car?.Company.CompanyName : "")
+                            </a>
+                        </dd>
+
+                    </dl>
+
+                </div>
+            </div>
+
+            <div class="card">
+
+                <!-- basic layout of project details -->
+                <div class="card-body">
+                    <h3 class="card-title">Booking Details</h3>
+                    <dl class="row">
+                        <dt class="col-sm-3">Booking ID</dt>
+                        <dd class="col-sm-9">@Model.BookingId</dd>
+
+                        <dt class="col-sm-3">Booking Reference</dt>
+                        <dd class="col-sm-9">@Model.BookingReference</dd>
+
+                        <dt class="col-sm-3">Car ID</dt>
+                        <dd class="col-sm-9">@Model.CarId</dd>
+
+                        <dt class="col-sm-3">Start Date</dt>
+                        <dd class="col-sm-9">@Model.StartDate?.ToShortDateString()</dd>
+
+                        <dt class="col-sm-3">End Date</dt>
+                        <dd class="col-sm-9">@Model.EndDate?.ToShortDateString()</dd>
+                    </dl>
+
+                    @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                    {
+                        <a asp-controller="CarBooking" asp-action="Edit" asp-route-Id="@Model.BookingId" class="btn btn-primary">Edit</a>
+                        <a asp-controller="CarBooking" asp-action="Index" asp-route-carId="@Model.CarId" class="btn btn-secondary">Return</a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Trip" asp-action="Index" class="btn btn-secondary">Return</a>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

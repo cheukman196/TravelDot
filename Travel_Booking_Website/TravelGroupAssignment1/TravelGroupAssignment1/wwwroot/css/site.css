@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    font-family: Montserrat, Arial, sans-serif;
+    margin-bottom: 60px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: Montserrat, Arial, sans-serif;
+}
+
+p {
+    font-family: Montserrat, Arial, sans-serif;
+}
+
+
+.search-form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+    .search-form h3 {
+        margin-bottom: 20px;
+    }
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.card-title,
+.card-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 50px;
+    margin-bottom: 0;
+}
+
+.card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.flight-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    background: #FEFBF6;
+}
+
+.flight-card-body {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.flight-info {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.flight-price {
+    color: #17594A;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.flight-info p {
+    margin: 5px 0;
+}
+
+.custom-margin {
+    margin-bottom: 20px;
+}
+
+.custom-rounded {
+    border-radius: 10px; 
+}
+
+.upload-area {
+    border: 2px dashed #aaa;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.uploaded-images {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.uploaded-image {
+    width: 100px;
+    height: 100px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    object-fit: cover;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+#accordion-button-flight,
+#accordion-button-car,
+#accordion-button-room {
+    background-color: #F5EDCE;
+    color: #272829;
+}
+
+.img-responsive {
+    max-width: 100%;
+    height: auto;
+    display: block; 
+    margin: 0 auto;
+}
+
+.DashboardNumber {
+    color: #789461;
+    font-weight: 900;
+    font-size: 64px;
+}
+
+.DashboardObject {
+    margin-bottom: 25px;
+    font-size: 24px;
+}
+
+.DashboardButton {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    font-size: 24px;
+    border-width: 2px;
+    border-radius: 20px;
+    box-shadow: 5px 10px;
+}
+

@@ -1,0 +1,38 @@
+﻿@using TravelGroupAssignment1.Areas.FlightManagement.Models;
+
+@{
+	Layout = "_FlightSearchItem";
+}
+
+@model Flight
+@{
+    ViewData["Title"] = "Flight Details";
+
+}
+<h1>Flight Details</h1>
+
+<div class="card">
+
+    <h3 class="card-title"> The Flight </h3>
+
+    <p class=" = " card-text>@Model.Airline </p>
+
+    <dl>
+        <dt class="col-sm-3">Price </dt>
+        <dd class=" col-sm-9">@Model.Price</dd>
+        <dt class="col-sm-3">Max Passengers </dt>
+        <dd class=" col-sm-9">@Model.MaxPassenger</dd>
+        <dt class="col-sm-3">From </dt>
+        <dd class=" col-sm-9">@Model.From</dd>
+        <dt class="col-sm-3">To </dt>
+        <dd class=" col-sm-9">@Model.To</dd>
+        <dt class="col-sm-3">Departure Time</dt>
+        <dd class=" col-sm-9">@Model.DepartTime</dd>
+        <dt class="col-sm-3">Arrival Time </dt>
+        <dd class=" col-sm-9">@Model.ArrivalTime</dd>
+    </dl>
+    <a asp-action="Edit" asp-route-flightid="@Model.FlightId" class=" btn btn-primary">Edit</a>
+    <a asp-action="Index" class=" btn btn-secondary">Back</a>
+
+
+</div>

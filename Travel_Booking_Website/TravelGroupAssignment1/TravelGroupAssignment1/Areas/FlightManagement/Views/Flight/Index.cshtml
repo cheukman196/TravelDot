@@ -1,0 +1,103 @@
+﻿@using TravelGroupAssignment1.Areas.FlightManagement.Models;
+
+@model List<Flight>
+@{
+    ViewData["Title"] = "List of Flights";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (this.User.IsInRole("SuperAdmin") || this.User.IsInRole("Admin"))
+{
+	Layout = "_FlightSearchItem";
+    <a asp-action="Create" class="btn btn-primary">Create Flight <i class="fa-solid fa-plus"></i></a>
+    @if (Model.Any()) // check if Model is null. 'Model' is reserved keyword to access the model
+    {
+        <table class="table">
+
+            <thead>
+                <tr>
+                    <th>Flight ID</th>
+                    <th>AirLine</th>
+                    <th>Price</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>DepartTime</th>
+                    <th>ArrivalTime</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var flight in Model)
+                {
+                    <tr>
+                        <td>@flight.FlightId</td>
+                        <td>@flight.Airline</td>
+                        <td>@flight.Price</td>
+                        <td>@flight.From</td>
+                        <td>@flight.To</td>
+                        <td>@Html.DisplayFor(modelItem => flight.DepartTime)</td>
+                        <td>@flight.ArrivalTime</td>
+
+                        <td>
+                            <a asp-controller="FlightBooking" asp-action="Index" asp-route-flightId="@flight.FlightId" class="btn btn.sm btn-secondary" role="button">Bookings<i class="fa-solid fa-list-check"></i></a>
+                            <a asp-controller="Flight" asp-action="Details" asp-route-flightId="@flight.FlightId" class="btn btn.sm btn-info" role="button">Details </a>
+                            <a asp-controller="Flight" asp-action="Edit" asp-route-flightId="@flight.FlightId" class="btn btn.sm btn-warning" role="button">Edit</a>
+                            <a asp-controller="Flight" asp-action="Delete" asp-route-flightId="@flight.FlightId" class="btn btn.sm btn-danger" role="button">Delete</a>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+    }
+    else
+    {
+        <p>No flights available</p>
+    }
+}
+else
+{
+    @if (Model.Any()) // check if Model is null. 'Model' is reserved keyword to access the model
+    {
+        <!-- Flight Card-->
+        <div class="container">
+            <div class="row">
+                @foreach (var flight in Model)
+                {
+                    <div class="col-md-6">
+                        <div class="flight-card shadow custom-rounded">
+                            <div class="flight-card-body">
+                                <div class="flight-info">
+                                    <p><b>Departure Time:</b> @flight.DepartTime </p>
+                                    <p><b>Arrivial Time:</b> @flight.ArrivalTime</p>
+                                    <p><strong>From:</strong> @flight.From <strong>To:</strong> @flight.To</p>
+                                    <p><b>Airline:</b>  @flight.Airline</p>
+                                </div>
+                                <div class="flight-price">$@flight.Price</div>
+                            </div>
+                            <div class="text-center custom-margin">
+                                <!-- Add custom margin class -->
+                                <a asp-controller="FlightBooking" asp-action="Create" asp-route-flightId="@flight.FlightId" class="btn btn-primary btn-lg">Book</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <p>No flights available</p>
+    }
+}
+
+
+
+
+
+
+
+

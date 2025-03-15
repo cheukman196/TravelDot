@@ -1,0 +1,58 @@
+﻿@using TravelGroupAssignment1.Areas.FlightManagement.Models;
+
+@model List<FlightBooking> //collection of tasks
+@{
+    ViewData["Title"] = "Bookings List";
+}
+<h2>@ViewData["Title"]</h2>
+<h3>For Flight @ViewBag.Flight.From to @ViewBag.Flight.To</h3>
+
+<a asp-action="create" asp-route-flightId="@ViewBag.FlightId" class="btn btn-primary">Create</a>
+
+@if (Model.Any())
+{
+
+    <table class=" table">
+        <thead>
+            <tr>
+                <th>Booking Reference</th>
+                <th>Passenger Id</th>
+                <th>Passenger Name</th>
+                <th>Passenger Seat</th>
+
+                <th>Passport Number</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var fbooking in Model)
+            {
+
+                <tr>
+                    <td>@fbooking.BookingReference</td>
+                    <td>@fbooking.Passengers[0].PassengerId</td>
+                    <td>@fbooking.Seat</td>
+                    <td>@fbooking.Passengers[0].FirstName @fbooking.Passengers[0].LastName</td>
+                    <td>@fbooking.Passengers[0].PassportNo</td>
+
+
+                    <td>
+                        <a class="btn btn.sm btn-info" asp-action="Details" asp-route-id="@fbooking.BookingId">Details</a> <!-- don't need to specify controller if same as default index' -->
+                        <a class="btn btn.sm btn-warning" asp-action="Edit" asp-route-id="@fbooking.BookingId">Edit</a>
+                        <a class="btn btn.sm btn-danger" asp-action="Delete" asp-route-id="@fbooking.BookingId">Delete</a>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}
+else
+{
+    
+    <p>No Bookings have been made</p>
+}
+
+<a class="btn btn-secondary" asp-controller="Flight" asp-action="Index">Return</a>

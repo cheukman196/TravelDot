@@ -1,0 +1,114 @@
+﻿@using TravelGroupAssignment1.Areas.HotelManagement.Models;
+
+@{
+    Layout = "_HotelSearchItem";
+}
+
+@model Hotel // bound to an empty Project (no attributes set)
+
+@{
+    // Razor block
+    ViewData["Title"] = "Create Hotel"; // set title of view
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+<!-- Create Hotel -->
+<div class="col-md-12 text-center">
+    <h2>Create Hotel</h2>
+</div>
+<br />
+<div class="container">
+    <form asp-controller="Hotel" asp-action="Create" method="post">
+        <!-- Warning if input validation fails -->
+        <div asp-validation-summary="ModelOnly" class="text-warning"></div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="upload-area">
+                    <body onload="setup()">
+                        <div id='formid' enctype="multipart/form-data" accept="image/*">
+                            <input id='fileid' type='file' name='filename' hidden />
+                            <input id='buttonid' type='button' value='Upload Image' />
+                        </div>
+                    </body>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="HotelName" class="control-label">Hotel Name</label>
+                    <input asp-for="HotelName" class="form-control" placeholder="Enter Name" />
+                    <span asp-validation-for="HotelName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Location" class="control-label"></label>
+                    <input asp-for="Location" class="form-control" placeholder="Enter Location" />
+                    <span asp-validation-for="Location" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="amenities">Amenities</label>
+                    <div class="form-check">
+                        <input asp-for="Amenities" class="form-check-input" type="checkbox" value="Pool" id="flexCheckDefault" checked>
+                        <label class="form-check-label" for="flexCheckDefault">
+                            <i class="fa-solid fa-water-ladder"></i> Pool
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input asp-for="Amenities" class="form-check-input" type="checkbox" value="Pet Friendly" id="flexCheckChecked" checked>
+                        <label class="form-check-label" for="flexCheckChecked">
+                            <i class="fa-solid fa-paw"></i> Pet Friendly
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input asp-for="Amenities" class="form-check-input" type="checkbox" value="Free Wifi" id="flexCheckChecked" checked>
+                        <label class="form-check-label" for="flexCheckChecked">
+                            <i class="fa-solid fa-wifi"></i> Free Wifi
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input asp-for="Amenities" class="form-check-input" type="checkbox" value="Gym" id="flexCheckChecked" checked>
+                        <label class="form-check-label" for="flexCheckChecked">
+                            <i class="fa-solid fa-dumbbell"></i> Gym
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input asp-for="Amenities" class="form-check-input" type="checkbox" value="Bar" id="flexCheckChecked" checked>
+                        <label class="form-check-label" for="flexCheckChecked">
+                            <i class="fa-solid fa-martini-glass"></i> Bar
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description (Max 150 characters)</label>
+                    <textarea asp-for="Description" class="form-control" id="description" rows="3" maxlength="150" placeholder="Enter description"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 text-center">
+            <button type="submit" class="btn btn-primary btn-lg">Create</button>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    function setup() {
+        document.getElementById('buttonid').addEventListener('click', openDialog);
+        function openDialog() {
+            document.getElementById('fileid').click();
+        }
+        document.getElementById('fileid').addEventListener('change', submitForm);
+        function submitForm() {
+            document.getElementById('formid').submit();
+        }
+    }
+</script>
+
+
+
+<!-- Validation scripts (if any) -->
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

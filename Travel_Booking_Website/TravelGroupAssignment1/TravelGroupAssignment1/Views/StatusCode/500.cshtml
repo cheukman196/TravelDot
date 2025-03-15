@@ -1,0 +1,50 @@
+﻿@{
+    Layout = "";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/TravelGroupAssignment1.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <title>500 - Internal Server Error</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .error-title {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .error-message {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        .error-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: #0E46A3; 
+        }
+    </style>
+</head>
+<body>
+    <i class="fa-regular fa-face-sad-tear error-icon"></i>
+    <h1 class="error-title">500 - Internal Server Error</h1>
+    <p class="error-message">Sorry, we're experiencing some technical difficulties at the moment. Please try again later. </p>
+    <a href="@Url.Action("Index", "Home")">Return to Home Page</a>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAV8M1tmHRlUOR3rEzspRxAwAAAAACAAAAAAAQZgAAAAEAACAAAAAPsW6ksm7XJw5sjwTkkNa/C49d1mNijR41vbwo8ER/nwAAAAAOgAAAAAIAACAAAABGM92pZOArzlR/Tq7xFYxpQSFLIsIArPzj27X7MiNr4oAAAADR1roVtvOelYhYbr+eTR5kSL2km5WBw97KsNM+cQdaCXE4VNfdIAfR3nkr9Mt6lKwsT2hFK8JKSlLTc1PZ+YVxldASxmX2A6Ze19yvZqvrz3fY+OGrKAPgZmFUeCX6A0lmcEcf7yoDw6XKuF6lOoLlDHO+qkdBU94C90IR8Epw2UAAAAA8zZ7CvAoBBpe0rb+yFdU7XA4FdeT/VyUPrJO+3zcemZGeBRa1kdvzN9MHbq7COZN+sf+mlvd1nO2eLbqqD7GR</EncryptedPassword>
+    <History>True|2024-04-16T04:41:57.5675555Z;False|2024-04-16T00:23:12.0596908-04:00;True|2024-04-15T17:24:15.9742221-04:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Data Source=tcp:travelgbc.database.windows.net,1433%3bInitial Catalog=travel%3bUser Id=aspnet%40travelgbc%3bPassword=Comp2139</Value>
+    </DestinationConnectionStrings>
+    <DestinationConnectionStrings Include="TravelGroupAssignment1ContextConnection">
+      <Value>Data Source=tcp:travelgbc.database.windows.net,1433%3bInitial Catalog=travel%3bUser Id=aspnet%40travelgbc%3bPassword=Comp2139</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+  <ItemGroup>
+    <EFMigrations Include="TravelGroupAssignment1.Data.ApplicationDbContext">
+      <Value>Data Source=tcp:travelgbc.database.windows.net,1433%3bInitial Catalog=travel%3bUser Id=aspnet%40travelgbc%3bPassword=Comp2139</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>

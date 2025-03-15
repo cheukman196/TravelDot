@@ -1,0 +1,42 @@
+﻿@using System.Globalization
+@using TravelGroupAssignment1.Areas.CarManagement.Models;
+
+@model CarBooking
+@{
+    ViewData["Title"] = "Delete Car Booking";
+}
+
+<h2>@ViewData["Title"]</h2>
+<h3>Please confirm you are deleting this car booking.</h3>
+
+<div class="card">
+
+    <!-- basic layout of project details -->
+    <div class="card-body">
+        <h3 class="card-title">@Model.Car?.Make @Model.Car?.Model</h3>
+        <p class="card-text">@Model.Car?.Type</p>
+
+        <dl class="row">
+            <dt class="col-sm-3">Booking ID</dt>
+            <dd class="col-sm-9">@Model.BookingId</dd>
+
+            <dt class="col-sm-3">Booking Reference</dt>
+            <dd class="col-sm-9">@Model.BookingReference</dd>
+
+            <dt class="col-sm-3">Car ID</dt>
+            <dd class="col-sm-9">@Model.CarId</dd>
+
+            <dt class="col-sm-3">Start Date</dt>
+            <dd class="col-sm-9">@Model.StartDate?.ToShortDateString()</dd>
+
+            <dt class="col-sm-3">End Date</dt>
+            <dd class="col-sm-9">@Model.EndDate?.ToShortDateString()</dd>
+        </dl>
+    </div>
+
+</div>
+<form asp-action="DeleteConfirmed" asp-route-con="@ViewBag.Controller" asp-route-id="@Model.BookingId" method="post">
+    @Html.HiddenFor(model => model.BookingId)
+    <input type="submit" value="Delete" class="btn btn-danger"/>
+    <a asp-controller="@ViewBag.Controller" asp-action="Index" asp-route-carId="@Model.CarId" class="btn btn-secondary">Cancel</a>
+</form>

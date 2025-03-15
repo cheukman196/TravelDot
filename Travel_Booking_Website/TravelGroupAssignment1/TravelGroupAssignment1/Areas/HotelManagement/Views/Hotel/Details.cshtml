@@ -1,0 +1,35 @@
+﻿@using TravelGroupAssignment1.Areas.HotelManagement.Models;
+
+@model Hotel
+@{
+    ViewData["Title"] = "Hotel Details";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="card">
+
+    <!-- basic layout of project details -->
+    <div class="card-body">
+        <h3 class="card-title">@Model.HotelName</h3>
+
+        <dl class="row">
+            <dt class="col-sm-3">Hotel ID</dt>
+            <dd class="col-sm-9">@Model.HotelId</dd>
+
+            <dt class="col-sm-3">Location</dt>
+            <dd class="col-sm-9">@Model.Location</dd>
+
+            <dt class="col-sm-3">Description</dt>
+            <dd class="col-sm-9">@Model.Description</dd>
+
+            <dt class="col-sm-3">Amenities</dt>
+            <dd class="col-sm-9">@Model.Amenities</dd>
+        </dl>
+
+        <a asp-action="Edit" asp-route-id="@Model.HotelId" class="btn btn-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary">Return</a>
+
+    </div>
+
+</div>

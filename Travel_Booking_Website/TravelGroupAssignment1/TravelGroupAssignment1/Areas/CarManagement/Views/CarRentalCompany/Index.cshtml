@@ -1,0 +1,51 @@
+﻿@using TravelGroupAssignment1.Areas.CarManagement.Models;
+
+@model List<CarRentalCompany>
+@{
+    ViewData["Title"] = "List of Car Rental Companies";
+}
+
+<h2>@ViewData["Title"]</h2>
+<a asp-action="Create" class="btn btn-primary">Create Rental Company <i class="fa-solid fa-plus"></i></a>
+<a asp-controller="Car" asp-action="Index" class="btn btn-secondary">Return to Cars<i class="fa-solid fa-plus"></i></a>
+
+@if (Model.Any()) // check if Model is null. 'Model' is reserved keyword to access the model
+{
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>Rental Company ID</th>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Rating</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var company in Model)
+            {
+                <tr>
+                    <td>@company.CarRentalCompanyId</td>
+                    <td>@company.CompanyName</td>
+                    <td>@company.Location</td>
+                    <td>@company.Rating</td>
+
+                    <td>
+                        <a asp-action="Details" asp-route-id="@company.CarRentalCompanyId" class="btn btn.sm btn-secondary" role="button">Details <i class="fa-solid fa-circle-info"></i></a>
+                        <a asp-action="Edit" asp-route-id="@company.CarRentalCompanyId" class="btn btn.sm btn-secondary" role="button">Edit <i class="fa-regular fa-pen-to-square"></i></a>
+                        <a asp-action="Delete" asp-route-id="@company.CarRentalCompanyId" class="btn btn.sm btn-danger" role="button">Delete <i class="fa-solid fa-circle-xmark"></i></a>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+}
+else
+{
+    <p>No Car Rental Companies available</p>
+}

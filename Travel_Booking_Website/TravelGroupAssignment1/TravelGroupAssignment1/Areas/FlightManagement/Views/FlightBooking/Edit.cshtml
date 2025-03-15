@@ -1,0 +1,80 @@
+﻿﻿@using TravelGroupAssignment1.Areas.FlightManagement.Models;
+
+@model PassengerBooking
+
+@{
+    ViewData["Title"] = "Edit FlightBooking";
+}
+<br />
+<h2>@ViewData["Title"]</h2>
+<br />
+<div class="card shadow">
+    <div class="card-header" style="background: #FFF3CF;">
+        <h3>Booking Reference: @Model.FBooking.BookingReference</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Edit" asp-route-id="@Model.FBooking.FlightId" method="post">
+                    <!-- Displays mode-lreated validation errors here -->
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    @Html.HiddenFor(Model => Model.FBooking.BookingId)
+                    @Html.HiddenFor(Model => Model.FBooking.FlightId)
+
+                    @Html.HiddenFor(Model => Model.Passenger.PassengerId)
+
+
+                    <div class="form-group">
+                        <label asp-for="FBooking.FlightClass" class="control-label">Flight Class</label>
+                        <input asp-for="FBooking.FlightClass" class="form-control" />
+                        <span asp-validation-for="FBooking.FlightClass" class="text-danger"></span>
+                    </div>
+                    @* <div class="form-group">
+                    <label asp-for="FBooking.FlightId" class="control-label">Flight Location</label>
+                    <select asp-for="FBooking.FlightId" asp-items="@ViewBag.BookingsList" class="form-control"></select>
+                    <span asp-validation-for="FBooking.FlightId" class="text-danger"></span>
+                    </div> *@
+                    <div class="form-group">
+                        <label asp-for="FBooking.Seat" class="control-label"></label>
+                        <input asp-for="FBooking.Seat" class="form-control" />
+                        <span asp-validation-for="FBooking.Seat" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Passenger.FirstName" class="control-label">First Name</label>
+                        <input asp-for="Passenger.FirstName" class="form-control" />
+                        <span asp-validation-for="Passenger.FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Passenger.LastName" class="control-label">Last name</label>
+                        <input asp-for="Passenger.LastName" class="form-control" />
+                        <span asp-validation-for="Passenger.LastName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Passenger.Phone" class="control-label">Phone</label>
+                        <input asp-for="Passenger.Phone" class="form-control" />
+                        <span asp-validation-for="Passenger.Phone" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Passenger.PassportNo" class="control-label">Passport No.</label>
+                        <input asp-for="Passenger.PassportNo" class="form-control" />
+                        <span asp-validation-for="Passenger.PassportNo" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Edit" class="btn btn-primary" />
+                        <a asp-controller="FlightBooking" asp-action="Index" asp-route-flightId="@Model.FBooking.FlightId" class="btn btn-warning">Cancel</a>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    @* this is what checks validation-for required annotation*@
+
+}

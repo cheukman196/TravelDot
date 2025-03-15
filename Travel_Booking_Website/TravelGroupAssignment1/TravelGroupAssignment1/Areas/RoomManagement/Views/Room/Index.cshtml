@@ -1,0 +1,232 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using TravelGroupAssignment1.Areas.RoomManagement.Models;
+@inject SignInManager<ApplicationUser> SignInManager // @* inject sign in manager *@
+@inject UserManager<ApplicationUser> UserManager // @* inject sign in manager *@
+
+@model List<Room>
+@{
+    ViewData["Title"] = "List of Rooms";
+    string hotelName = ViewBag.HotelName;
+    int hotelId = ViewBag.HotelId as int? ?? 0;
+    string? searchLocation = ViewBag.Location as string;
+    int searchCapacity = ViewBag.Capacity as int? ?? 0;
+    bool searchValid = ViewBag.SearchValid as bool? ?? false;
+    DateTime searchCheckInDate = ViewBag.CheckInDate != null ? ViewBag.CheckInDate : DateTime.Now;
+    DateTime searchCheckOutDate = ViewBag.CheckOutDate != null ? ViewBag.CheckOutDate : DateTime.Now.AddDays(2);
+}
+<br />
+<br />
+@if (this.User.IsInRole("SuperAdmin") || this.User.IsInRole("Admin"))
+{
+    @if (Model.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Room Name</th>
+                    <th>Hotel Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var room in Model)
+                {
+                    <tr>
+                        <td>@room.RoomId</td>
+                        <td>@room.Name</td>
+                        <td>@room.Hotel.HotelName</td>
+                        <td>
+                            <a asp-controller="RoomBooking" asp-action="Index" asp-route-roomId="@room.RoomId" class="btn btn.sm btn-secondary" role="button">Bookings<i class="fa-solid fa-list-check"></i></a>
+                            <a asp-controller="Room" asp-action="Details" asp-route-id="@room.RoomId" class="btn btn-info">Details</a>
+                            <a asp-controller="Room" asp-action="Edit" asp-route-id="@room.RoomId" class="btn btn-warning">Edit</a>
+                            <a asp-controller="Room" asp-action="Delete" asp-route-id="@room.RoomId" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No rooms available</p>
+
+    }
+    <a asp-controller="Room" asp-action="Create" asp-route-hotelId="@ViewBag.hotelId" class="btn btn-primary">Create new Room</a>
+    <a asp-area="HotelManagement" asp-controller="Hotel" asp-action="Index" class="btn btn-secondary">Return to Hotels</a>
+
+}
+else
+{
+    <h2>@hotelName</h2>
+    // Room Search Bar
+    <div class="tab-pane" role="tabpanel" aria-labelledby="room-tab" tabindex="0">
+        <div id="roomForm" class="search-form">
+            <h4>Room Search</h4>
+            <form asp-action="Search" class="form" method="get" id="roomSearchForm" autocomplete="off">
+                <div asp-validation-summary="ModelOnly" class="text-warning"></div>
+                <input hidden required id="hotelId" name="hotelId" value="@hotelId" class="form-control" />
+
+                <div class="form-group mb-2 d-inline-block">
+                    <label for="capacity" class="control-label">Travellers</label>
+                    <input required id="capacity" name="capacity" type="number" value="@(searchCapacity == 0 ? 2 : searchCapacity)" class="form-control" />
+                </div>
+
+                <div class="form-group mb-2 d-inline-block">
+                    <label for="checkInDate" class="control-label">Start Date</label>
+                    <input required id="checkInDate" name="checkInDate" type="date" value="@searchCheckInDate.ToString("yyyy-MM-dd")" min="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" onchange="updateCheckOutDateLimit('checkInDate', 'checkOutDate')" />
+                </div>
+
+                <div class="form-group mb-2 d-inline-block">
+                    <label for="checkOutDate" class="control-label">End Date</label>
+                    <input required id="checkOutDate" name="checkOutDate" type="date" value="@searchCheckOutDate.ToString("yyyy-MM-dd")" min="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" />
+                </div>
+                <div class="container d-inline-block" id="roomSearchButton">
+                    <input type="submit" value="Search" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <br />
+
+    // Review Section Hideable
+    <div class="accordion" id="hotelComments">
+        <div class="accordion-item">
+            <h3>
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    View Reviews
+                </button>
+            </h3>
+            <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+
+                    <!-- load comments here -->
+                    <div id="commentList" class="container">
+                        <p>Please login to comment and review</p>
+                    </div>
+                    <br />
+                    <!-- add comments here -->
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <div class="card">
+
+                            <div class="card-header">
+                                <h5>Post a Comment</h5>
+                            </div>
+
+                            <div class="card-body">
+                                <form id="addCommentForm" class="mt-3">
+                                    <input type="hidden" name="HotelId" value="@hotelId" />
+                                    <input type="hidden" name="Username" value="@UserManager.GetUserName(User)" />
+
+                                    <div class="form-group">
+                                        <label for="Rating">Rating</label>
+                                        <select name="Rating">
+                                            <option value="0">0</option>
+                                            <option value="0.5">0.5</option>
+                                            <option value="1.5">1.5</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="2.5">2.5</option>
+                                            <option value="3">3</option>
+                                            <option value="3.5">3.5</option>
+                                            <option value="4">4</option>
+                                            <option value="4.5">4.5</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <textarea name="Content" class="form-control" placeholder="Add a comment ..."></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-success">Post Comment</button>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <h4>@ViewData["Title"]</h4>
+    <br />
+
+    @if (Model.Any())
+    {
+        <!-- Room Card -->
+        <div class="row" id="roomList">
+            @foreach (var room in Model)
+            {
+                <div class="col-12 col-sm-4">
+                    <div class="card shadow" style="width: 18rem;">
+                        <a asp-action="Details" asp-route-id="@room.RoomId" class="card-link">
+                            <img id="@room.RoomId" src="https://assets-global.website-files.com/5c6d6c45eaa55f57c6367749/65045f093c166fdddb4a94a5_x-65045f0266217.webp" class="card-img-top" alt="Hotel Room" style="width: 100%; height: 100%;">
+                            <div class="card-body">
+                                <h4 class="card-title">@room.Name</h4>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <i class="fa-solid fa-user-group"></i> @room.Capacity
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fa-solid fa-bed"></i> @room.BedDescription
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fa-solid fa-expand"></i> @room.RoomSize sq ft
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fa-solid fa-tag"></i> $@room.PricePerNight / night
+                                </li>
+                            </ul>
+                            <a asp-controller="RoomBooking" asp-action="Create" asp-route-roomId="@room.RoomId"
+                               asp-route-checkInDate="@searchCheckInDate.ToString("yyyy-MM-dd")" asp-route-checkOutDate="@searchCheckOutDate.ToString("yyyy-MM-dd")"
+                               class="btn btn.sm btn-primary" role="button">Reserve Room</a>
+                        </a>
+                    </div>
+                </div>
+        <script>
+            (async () => {
+            const topic = 'hotel room';
+            const accessKey = 'WOgcw4SyGE-wP7k667o8j0Z3wgySWFLIaSr89ZOUkM4';
+
+            // Make API request to fetch random image by topic for this hotel
+            const response = await fetch(`https://api.unsplash.com/photos/random?query=${topic}&client_id=${accessKey}`);
+            const data = await response.json();
+            const imageUrl = data.urls.regular;
+
+            // Set the image src attribute dynamically for this hotel
+            document.getElementById('@room.RoomId').src = imageUrl;
+            })();
+        </script>
+            }
+        </div>
+    }
+    else
+    {
+        @if (searchValid)
+        {
+            <br />
+            <h4>Sorry, no available Room that matches your search results</h4>
+        }
+        else
+        {
+            <br />
+            <h4>Sorry, no rooms available at the momement</h4>
+        }
+    }
+    @section Scripts {
+    <script src="~/js/roomSearch.js"></script>
+    @if (SignInManager.IsSignedIn(User))
+        {
+            <script src="~/js/hotelComment.js"></script>
+        }
+    }
+}
+
+

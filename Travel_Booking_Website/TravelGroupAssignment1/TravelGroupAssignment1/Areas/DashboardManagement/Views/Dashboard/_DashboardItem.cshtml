@@ -1,0 +1,108 @@
+﻿@using TravelGroupAssignment1.Areas.CarManagement.Models;
+
+@{
+    string? locationFrom = ViewContext.HttpContext.Request.Query["locationFrom"].Count > 0 ? ViewContext.HttpContext.Request.Query["locationFrom"] : "";
+    string? location = ViewContext.HttpContext.Request.Query["location"].Count > 0 ? ViewContext.HttpContext.Request.Query["location"] : "";
+    string? startDate = ViewContext.HttpContext.Request.Query["startDate"].Count > 0 ? ViewContext.HttpContext.Request.Query["startDate"] : DateTime.Now.ToString("yyyy-MM-dd");
+    string? endDate = ViewContext.HttpContext.Request.Query["endDate"].Count > 0 ? ViewContext.HttpContext.Request.Query["endDate"] : DateTime.Now.AddDays(2).ToString("yyyy-MM-dd");
+    string? capacity = ViewContext.HttpContext.Request.Query["capacity"].Count > 0 ? ViewContext.HttpContext.Request.Query["capacity"] : "2";
+    string? tab = ViewContext.HttpContext.Request.Query["tab"].Count > 0 ? ViewContext.HttpContext.Request.Query["tab"] : "";
+}
+@using Microsoft.AspNetCore.Identity;
+@inject UserManager<ApplicationUser> UserManager
+
+@inject SignInManager<ApplicationUser> SignInManager
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - TravelGroupAssignment1</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/TravelGroupAssignment1.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TravelGroupAssignment1</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1 justify-content-end">
+                        @if (this.User.IsInRole("SuperAdmin") || this.User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="DashboardManagement" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+                            </li>
+                        }
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Trip" asp-action="Index">My Trip</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="CarManagement" asp-controller="Car" asp-action="Index">Car</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="HotelManagement" asp-controller="Hotel" asp-action="Index">Hotel</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="FlightManagement" asp-controller="Flight" asp-action="Index">Flight</a>
+                        </li>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            // @await Component.InvokeAsync("UserRole")
+                            @if (UserManager.GetUserAsync(User).Result.ProfilePic != null)
+                            {
+                                <img id="profilepic" style="width: 35px; height: 35px; border-radius:20px; object-fit: cover"
+                                     src="data:image/*; base64, @(Convert.ToBase64String((UserManager.GetUserAsync(User)).Result.ProfilePic))" />
+                            }
+                            //profile
+                            <li class="nav-item">
+                                <a class="nav-link text-dark"
+                                   asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage your account">
+                                    Hello @User.Identity?.Name
+                                </a>
+                            </li>
+                            //logout
+                            <li class="nav-item">
+
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                    <button type="submit" class="nav-link btn btn-link text-dark" style="cursor:pointer"> Logout</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <partial name="_LoginPartial" />
+
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - TravelGroupAssignment1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/formValidation.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

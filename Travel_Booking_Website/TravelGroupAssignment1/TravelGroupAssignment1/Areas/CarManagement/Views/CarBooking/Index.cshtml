@@ -1,0 +1,56 @@
+﻿@using System.Globalization
+@using TravelGroupAssignment1.Areas.CarManagement.Models;
+
+@model IEnumerable<CarBooking>
+@{
+    ViewData["Title"] = "List of Car Bookings";
+    string carName = ViewBag.CarName as string;
+    string carType = ViewBag.CarType as string;
+}
+
+<h2>@ViewData["Title"]</h2>
+<h4>@carName (@carType)</h4>
+<a asp-action="Create" asp-route-carId="@ViewBag.CarId" class="btn btn-primary">Create Booking<i class="fa-solid fa-plus"></i></a>
+
+@if (Model.Any()) // check if Model is null. 'Model' is reserved keyword to access the model
+{
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>Trip ID</th>
+                <th>Booking Reference</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var booking in Model)
+            {
+                <tr>
+                    <td>@booking.BookingId</td>
+                    <td>@booking.TripId</td>
+                    <td>@booking.BookingReference</td>
+                    <td>@booking.StartDate?.ToShortDateString()</td>
+                    <td>@booking.EndDate?.ToShortDateString()</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@booking.BookingId" class="btn btn.sm btn-secondary" role="button">Details <i class="fa-solid fa-circle-info"></i></a>
+                        <a asp-action="Edit" asp-route-id="@booking.BookingId" class="btn btn.sm btn-secondary" role="button">Edit <i class="fa-regular fa-pen-to-square"></i></a>
+                        <a asp-action="Delete" asp-route-id="@booking.BookingId" class="btn btn.sm btn-danger" role="button">Delete <i class="fa-solid fa-circle-xmark"></i></a>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+}
+else
+{
+    <p>No bookings available</p>
+}
+<a asp-controller="Car" asp-action="Index" class="btn btn-secondary">Return</a>

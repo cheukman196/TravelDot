@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "mssql2": {
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/travelgbc/databases/travel",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:MyTravelConnectionString"
+    }
+  }
+}

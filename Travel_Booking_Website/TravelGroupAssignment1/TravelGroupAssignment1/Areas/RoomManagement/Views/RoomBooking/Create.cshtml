@@ -1,0 +1,90 @@
+﻿@using TravelGroupAssignment1.Areas.RoomManagement.Models;
+@model RoomBooking
+
+@{
+    ViewData["Title"] = "Confirm Room Booking";
+}
+
+<h2>@ViewData["Title"]</h2>
+<div class="card shadow">
+    <div class="card-header" style="background: #FFF3CF;">
+        <h3 class="card-title"> @ViewBag.Hotel?.HotelName - @ViewBag.Room?.Name</h3>
+    </div>
+    <div class="card-body">
+
+        <h4>Booking Info</h4>
+        <dl class="row">
+            <dt class="col-sm-3">Booking Reference</dt>
+            <dd class="col-sm-9">@Model.BookingReference</dd>
+
+            <dt class="col-sm-3">Room ID</dt>
+            <dd class="col-sm-9">@Model.RoomId</dd>
+        </dl>
+        <hr />
+        <h4>Room Details</h4>
+        <dl class="row">
+            <dt class="col-sm-3">Capacity</dt>
+            <dd class="col-sm-9">@ViewBag.Room?.Capacity</dd>
+
+            <dt class="col-sm-3">Bed Description</dt>
+            <dd class="col-sm-9">@ViewBag.Room?.BedDescription</dd>
+
+            <dt class="col-sm-3">Room Size</dt>
+            <dd class="col-sm-9">@ViewBag.Room?.RoomSize (sq ft)</dd>
+
+            <dt class="col-sm-3">Price per night</dt>
+            <dd class="col-sm-9">$@ViewBag.Room?.PricePerNight</dd>
+
+            <dt class="col-sm-3">Amenities</dt>
+            <dd class="col-sm-9">@ViewBag.Room?.Amenities</dd>
+        </dl>
+    </div>
+</div>
+<br />
+<form asp-controller="RoomBooking" asp-action="CreateBooking" method="post">
+    <!-- Warning if input validation fails -->
+    <div asp-validation-summary="ModelOnly" class="text-warning"></div>
+
+    <div>
+        <label asp-for="CheckInDate" class="control-label">Check In Date</label>
+        @if (ViewBag.CheckInDate != null)
+        {
+            <input asp-for="CheckInDate" value="@ViewBag.CheckInDate.ToString("yyyy-MM-dd")" type="date" class="form-control" readonly />
+        }
+        else
+        {
+            <input asp-for="CheckInDate" value="@(DateTime.Now.AddDays(2).ToString("yyyy-MM-dd"))" type="date" class="form-control" />
+        }
+        <span asp-validation-for="CheckInDate" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="CheckOutDate" class="control-label">Check Out Date</label>
+        @if (ViewBag.CheckOutDate != null)
+        {
+            <input asp-for="CheckOutDate" value="@ViewBag.CheckOutDate.ToString("yyyy-MM-dd")" type="date" class="form-control" readonly />
+        }
+        else
+        {
+            <input asp-for="CheckOutDate" value="@(DateTime.Now.AddDays(2).ToString("yyyy-MM-dd"))" type="date" class="form-control" />
+        }
+        <span asp-validation-for="CheckOutDate" class="text-danger"></span>
+
+    </div>
+    <br />
+    <div class="form-group">
+        @Html.HiddenFor(model => model.TripId)
+        @Html.HiddenFor(model => model.RoomId)
+        @Html.HiddenFor(model => model.Room)
+        <input type="submit" value="Confirm" class="btn btn-primary" />
+        <a asp-controller="Room" asp-action="Index" asp-route-hotelId="@ViewBag.Hotel?.HotelId" class="btn btn-secondary">Cancel</a>
+    </div>
+
+
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

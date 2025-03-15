@@ -1,0 +1,37 @@
+﻿﻿@using TravelGroupAssignment1.Areas.FlightManagement.Models;
+
+@model FlightBooking
+@{
+    ViewData["Title"] = "Booking Details";
+
+}
+<h1>@ViewData["Title"]</h1>
+
+<div class="card shadow">
+    <div class="card-header" style="background: #FFF3CF;">
+        <h3 class="card-title"> Booking Reference: @Model.BookingReference</h3>
+    </div>
+    <div class="card-body">
+        <dl class="row shadow">
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => Model.Seat) </dt>
+            <dd class=" col-sm-9">@Html.DisplayFor(model => Model.Seat)</dd>
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => Model.FlightClass) </dt>
+            <dd class=" col-sm-9">@Html.DisplayFor(model => Model.FlightClass)</dd>
+            @foreach (var pass in Model.Passengers)
+            {
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => pass.FirstName) </dt>
+                <dd class=" col-sm-9">@Html.DisplayFor(model => pass.FirstName)</dd>
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => pass.LastName) </dt>
+                <dd class=" col-sm-9">@Html.DisplayFor(model => pass.LastName)</dd>
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => pass.PassportNo) </dt>
+                <dd class=" col-sm-9">@Html.DisplayFor(model => pass.PassportNo)</dd>
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => pass.Phone) </dt>
+                <dd class=" col-sm-9">@Html.DisplayFor(model => pass.Phone)</dd>
+                <hr />
+            }
+        </dl>
+    </div>
+</div>
+
+<a asp-controller="FlightBooking" asp-action="Edit" asp-route-id="@Model.BookingId" class=" btn btn-primary">Edit</a>
+<a asp-controller="@ViewBag.Controller" asp-action="Index" asp-route-flightId="@Model.FlightId" class=" btn btn-secondary">Back</a>

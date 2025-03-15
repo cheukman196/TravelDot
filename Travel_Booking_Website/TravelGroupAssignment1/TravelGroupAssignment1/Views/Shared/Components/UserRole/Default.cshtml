@@ -1,0 +1,21 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    System.Diagnostics.Debug.WriteLine("making admin dropdown");
+}
+@model dynamic
+@if (Model.IsSuperAdmin)
+{
+    <li class="nav-item">
+        <div class="dropdown">
+            <a id="adminDropdown" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Admin
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="adminDropdown"> 
+                <li><a class="dropdown-item" asp-area="" asp-controller="RoleManager" asp-action="Index">Role Manager</a></li>
+                <li><a class="dropdown-item" asp-area="" asp-controller="UserRoles" asp-action="Index">Change user Roles</a></li>
+            </ul>
+        </div>
+     </li>
+}

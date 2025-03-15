@@ -1,0 +1,89 @@
+﻿@using TravelGroupAssignment1.Areas.FlightManagement.Models;
+
+@model FlightBooking
+@{
+    ViewData["Title"] = "Delete Flight Booking";
+
+}
+<h1>@ViewData["Title"]</h1>
+<h3 class="card-title"> Are you sure you want to delete this booking? </h3>
+<p>@ViewBag.Controller</p>
+
+
+<div class="card">
+    <div class="card-body">
+
+
+
+        <dl class="row">
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.FlightId)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.FlightId)
+
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.FlightClass)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.FlightClass)
+
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.Seat)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Seat)
+
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.Passengers[0].FirstName)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Passengers[0].LastName)
+
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.Passengers[0].Phone)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Passengers[0].PassportNo)
+
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.Flight.From)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Flight.To)
+
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.Flight.DepartTime)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Flight.DepartTime)
+
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.Flight.ArrivalTime)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Flight.ArrivalTime)
+
+            </dd>
+
+            <dt></dt>
+
+        </dl>
+        <!-- buttons for editing and -->
+    </div>
+
+</div>
+<form asp-action="DeleteConfirmed" asp-route-con="@ViewBag.Controller" asp-route-bookingId="@Model.BookingId" method="post">
+    @Html.HiddenFor(model => model.FlightId)
+    <input type="submit" value="Delete" class="btn btn-danger" />
+    <a asp-controller="@ViewBag.Controller" asp-action="Index" asp-route-flightId="@Model.FlightId" class=" btn btn-warning">Cancel</a>
+
+
+</form>

@@ -1,0 +1,108 @@
+﻿@using TravelGroupAssignment1.Areas.DashboardManagement.Models.ViewModels
+
+@{
+    Layout = "_DashboardItem";
+}
+
+@model DashboardViewModel
+
+<!-- Number Group -->
+<div class="container text-center">
+    <div class="row">
+        <div class="col">
+            <div class="container text-center">
+                <div class="row row-cols-1">
+                    <div class="col DashboardNumber">@Model.CarRentalCompanyCount</div>
+                    <div class="col DashboardObject">Car Rental Companies</div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="container text-center">
+                <div class="row row-cols-1">
+                    <div class="col DashboardNumber"> @Model.HotelCount</div>
+                    <div class="col DashboardObject">Hotels</div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="row row-cols-1">
+                <div class="col DashboardNumber">@Model.FlightCount</div>
+                <div class="col DashboardObject">Flights</div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="row row-cols-1">
+                <div class="col DashboardNumber">@Model.RoomCount</div>
+                <div class="col DashboardObject">Rooms</div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="row row-cols-1">
+                <div class="col DashboardNumber">@Model.CarCount</div>
+                <div class="col DashboardObject">Cars</div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="row row-cols-1">
+                <div class="col DashboardNumber">@Model.UserCount</div>
+                <div class="col DashboardObject">Users</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Button Group -->
+<div class="container text-center">
+    <div class="row">
+        <div class="col">
+            <div class="container text-center">
+                <div class="row row-cols-1">
+                    <div class="col">
+                        <a class="btn btn-outline-dark DashboardButton" asp-area="CarManagement" asp-controller="Car" asp-action="Index">Manage Cars</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="container text-center">
+                <div class="row row-cols-1">
+                    <div class="col">
+                        <a class="btn btn-outline-dark DashboardButton" asp-area="HotelManagement" asp-controller="Hotel" asp-action="Index">Manage Hotels</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="container text-center">
+                <div class="row row-cols-1">
+                    <div class="col">
+                        <a class="btn btn-outline-dark DashboardButton" asp-area="FlightManagement" asp-controller="Flight" asp-action="Index">Manage Flights</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="container text-center">
+                <div class="row row-cols-1">
+                    <div class="col">
+                        <a class="btn btn-outline-dark DashboardButton" asp-area="" asp-controller="UserRoles" asp-action="">Manage Users</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="container text-center">
+                <div class="row row-cols-1">
+                    <div class="col">
+                        <a class="btn btn-outline-dark DashboardButton" asp-area="" asp-controller="RoleManager" asp-action="">Manage Roles</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

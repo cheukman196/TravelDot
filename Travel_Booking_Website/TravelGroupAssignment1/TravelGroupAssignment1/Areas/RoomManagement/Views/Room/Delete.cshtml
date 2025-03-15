@@ -1,0 +1,47 @@
+﻿@using TravelGroupAssignment1.Areas.RoomManagement.Models;
+
+@model Room
+@{
+    ViewData["Title"] = "Delete Room";
+}
+
+<h2>@ViewData["Title"]</h2>
+<h3>Please confirm you are deleting this room.</h3>
+
+<div class="card">
+
+    <!-- basic layout of project details -->
+    <div class="card-body">
+        <h3 class="card-title">@Model.Name</h3>
+
+        <dl class="row">
+            <dt class="col-sm-3">Room ID</dt>
+            <dd class="col-sm-9">@Model.HotelId</dd>
+            
+            <dt class="col-sm-3">Hotel</dt>
+            <dd class="col-sm-9">@Model.Hotel?.HotelName</dd>
+
+            <dt class="col-sm-3">Capacity</dt>
+            <dd class="col-sm-9">@Model.Capacity</dd>
+
+            <dt class="col-sm-3">Bed Description</dt>
+            <dd class="col-sm-9">@Model.BedDescription</dd>
+
+            <dt class="col-sm-3">Room Size</dt>
+            <dd class="col-sm-9">@Model.RoomSize (sq ft)</dd>
+
+            <dt class="col-sm-3">Price per night</dt>
+            <dd class="col-sm-9">$@Model.PricePerNight</dd>
+
+            <dt class="col-sm-3">Amenities</dt>
+            <dd class="col-sm-9">@Model.Amenities</dd>
+        </dl>
+
+    </div>
+
+</div>
+<form asp-action="DeleteConfirmed" asp-route-id="@Model.RoomId" method="post">
+    @Html.HiddenFor(model => model.RoomId)
+    <input type="submit" value="Delete" class="btn btn-danger" />
+    <a asp-action="Index" asp-route-hotelId="@Model.HotelId" class="btn btn-secondary">Cancel</a>
+</form>

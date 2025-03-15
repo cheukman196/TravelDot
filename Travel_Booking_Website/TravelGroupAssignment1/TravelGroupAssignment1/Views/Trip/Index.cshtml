@@ -1,0 +1,146 @@
+﻿<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - TravelGroupAssignment1</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/TravelGroupAssignment1.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+@model BookingsViewModel;
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>All Bookings</h1>
+
+
+    <div class="accordion shadow-lg p-3 mb-5 bg-white rounded" id="accordionPanelsStayOpenExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                <button class="accordion-button" id="accordion-button-room" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                <h4>Room <i class="fa-regular fa-building"></i></h4>
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                <div class="accordion-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Room's name</th>
+                                <th>Check in time</th>
+                                <th>Check out time</th>
+                                <th>Capacity</th>
+                                <th>Price</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var booking in Model.rooms)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => booking.Room.Name)</td>
+                                    <td>@Html.DisplayFor(modelItem => booking.CheckInDate, "HotelDateTime")</td>
+                                    <td>@Html.DisplayFor(modelItem => booking.CheckOutDate, "HotelDateTime")</td>
+                                    <td>@Html.DisplayFor(modelItem => booking.Room.Capacity)</td>
+                                    <td>$@Html.DisplayFor(modelItem => booking.Room.PricePerNight)</td>
+                                    <td>
+                                        <a asp-controller="RoomBooking" asp-action="Details" asp-route-con="Trip" asp-route-id="@booking.BookingId">Details</a> |
+                                        <a asp-controller="RoomBooking" asp-action="Delete" asp-route-con="Trip" asp-route-id="@booking.BookingId">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                <button class="accordion-button collapsed" id="accordion-button-flight" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                <h4>Flight <i class="fa-solid fa-plane"></i></h4>
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+                <div class="accordion-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Airline</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Departure Time</th>
+                                <th>Arrivial Time</th>
+                                <th>Price</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var booking in Model.flights)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => booking.Flight.Airline)</td>
+                                    <td>@Html.DisplayFor(modelItem => booking.Flight.From)</td>
+                                    <td>@Html.DisplayFor(modelItem => booking.Flight.To)</td>
+                                    <td>@Html.DisplayFor(modelItem => booking.Flight.DepartTime, "FlightDateTime")</td>
+                                    <td>@Html.DisplayFor(modelItem => booking.Flight.ArrivalTime, "FlightDateTime")</td>
+                                    <td>$@Html.DisplayFor(modelItem => booking.Flight.Price)</td>
+                                    <td>
+                                        <a asp-controller="FlightBooking" asp-action="Details" asp-route-con="Trip" asp-route-id="@booking.BookingId">Details</a> |
+                                        <a asp-controller="FlightBooking" asp-action="Delete" asp-route-con="Trip" asp-route-id="@booking.BookingId">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                <button class="accordion-button collapsed" id="accordion-button-car" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                <h4>Car <i class="fa-solid fa-car-side"></i></h4>
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingThree">
+                <div class="accordion-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Make</th>
+                                <th>Model</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Price</th>
+                                <th>Action</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var booking in Model.cars)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => booking.Car.Make)</td>
+                                    <td>@Html.DisplayFor(modelItem => booking.Car.Model)</td>
+                                    <td>@Html.DisplayFor(modelItem => booking.StartDate, "CarDateTime")</td>
+                                    <td>@Html.DisplayFor(modelItem => booking.EndDate, "CarDateTime")</td>
+                                    <td>$@Html.DisplayFor(modelItem => booking.Car.PricePerDay)</td>
+                                    <td>
+                                        <a asp-controller="CarBooking" asp-action="Details" asp-route-con="Trip" asp-route-id="@booking.BookingId">Details</a> |
+                                    <a asp-controller="CarBooking" asp-action="Delete" asp-route-con="Trip" asp-route-id="@booking.BookingId">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="row justify-content-center">
+    <div class="col-auto">
+        <a class="btn btn-primary" asp-action="Checkout">Checkout</a>
+    </div>
+</div>

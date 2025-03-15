@@ -1,0 +1,50 @@
+﻿@using System.Globalization
+@using TravelGroupAssignment1.Areas.CarManagement.Models;
+
+@model CarBooking
+
+@{
+    ViewData["Title"] = "Edit Car Booking";
+}
+
+<h2>@ViewData["Title"]</h2>
+<h4>@ViewBag.CarName</h4>
+<form asp-action="Edit" method="post">
+    <!-- Warning if input validation fails -->
+    <div asp-validation-summary="ModelOnly" class="text-warning"></div>
+
+    <div>
+        <label asp-for="StartDate" class="control-label"></label>
+        <input asp-for="StartDate" type="date" value="@Model.StartDate?.ToString("yyyy-MM-dd")" class="form-control" />
+        <span asp-validation-for="StartDate" class="text-danger"></span>
+
+    </div>
+
+    <div>
+        <label asp-for="EndDate" class="control-label"></label>
+        <input asp-for="EndDate" type="date" value="@Model.EndDate?.ToString("yyyy-MM-dd")" class="form-control" />
+        <span asp-validation-for="EndDate" class="text-danger"></span>
+
+    </div>
+
+    <div class="form-group">
+        <!--
+        Uncomment when Trip class and Trip id setup
+        @Html.HiddenFor(model => model.TripId)
+        -->
+        @Html.HiddenFor(model => model.CarId)
+        @Html.HiddenFor(model => model.Car)
+        @Html.HiddenFor(model => model.BookingId)
+        @Html.HiddenFor(model => model.BookingReference)
+        <input type="submit" value="Edit" class="btn btn-primary" />
+        <a asp-action="Index" asp-route-carId="@Model.CarId" class="btn btn-secondary">Return</a>
+    </div>
+
+
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

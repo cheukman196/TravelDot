@@ -1,0 +1,93 @@
+﻿@using TravelGroupAssignment1.Areas.FlightManagement.Models;
+
+@model FlightBooking
+
+@{
+    ViewData["Title"] = "Input Passenger Info";
+    int i = 1;
+
+
+
+}
+<br />
+<div class="card shadow">
+    <div class="card-header" style="background: #FFF3CF;">
+        <h3>Passenger Information</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="CreateBooking" asp-route-id="@Model.FlightId" method="post">
+                    <!-- Displays mode-lreated validation errors here -->
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+                    <div class="form-group">
+                        <label asp-for="@Model.FlightClass" class="control-label">Class Seat</label>
+                        <select asp-for="@Model.FlightClass" class="form-control">
+                            <option value="">Select Class</option>
+                            <option value="First Class">First Class</option>
+                            <option value="Business Class">Second Class</option>
+                            <option value="Economy Class">Economy Class</option>
+                        </select>
+                        <span asp-validation-for="@Model.FlightClass" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Seat" class="control-label"></label>
+                        <input asp-for="Seat" class="form-control" />
+                        <span asp-validation-for="Seat" class="text-danger"></span>
+                    </div>
+                    <script>
+                        function raiseIndex() {
+                        @i++;
+                        }
+                    </script>
+                    <div id="add-passengers">
+                        <!--<button type="button" class="btn btn-success" id="newPass" onclick="newField(i);raiseIndex();">+</button>-->
+                        <div class="passenger">
+
+                            <div class="form-group">
+                                <label asp-for="@Model.Passengers[0].FirstName" class="control-label"></label>
+                                <input asp-for="@Model.Passengers[0].FirstName" class="form-control" />
+                                <span asp-validation-for="@Model.Passengers[0].FirstName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="@Model.Passengers[0].LastName" class="control-label"></label>
+                                <input asp-for="@Model.Passengers[0].LastName" class="form-control" />
+                                <span asp-validation-for="@Model.Passengers[0].LastName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="@Model.Passengers[0].Phone" class="control-label"></label>
+                                <input asp-for="@Model.Passengers[0].Phone" class="form-control" />
+                                <span asp-validation-for="@Model.Passengers[0].Phone" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="@Model.Passengers[0].PassportNo" class="control-label"></label>
+                                <input asp-for="@Model.Passengers[0].PassportNo" class="form-control" />
+                                <span asp-validation-for="@Model.Passengers[0].PassportNo" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        @Html.HiddenFor(m => m.FlightId)
+
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                        <a asp-action="Index" asp-route-flightId="@Model.FlightId" class=" btn btn-secondary">Back</a>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    @* this is what checks validation-for required annotation*@
+
+}

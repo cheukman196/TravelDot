@@ -1,0 +1,56 @@
+﻿@using TravelGroupAssignment1.Areas.RoomManagement.Models;
+
+
+@model List<RoomBooking>
+@{
+    ViewData["Title"] = "List of Room Bookings";
+    string? roomName = ViewBag.RoomName as string;
+    int roomId = ViewBag.RoomId as int? ?? 0;
+}
+
+<h2>@ViewData["Title"]</h2>
+<h4>@roomName</h4>
+<a asp-action="Create" asp-route-roomId="@ViewBag.RoomId" class="btn btn-primary">Make Booking</i></a>
+
+@if (Model.Any()) // check if Model is null. 'Model' is reserved keyword to access the model
+{
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>Trip ID</th>
+                <th>Booking Reference</th>
+                <th>Check In Date</th>
+                <th>Check Out Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var booking in Model)
+            {
+                <tr>
+                    <td>@booking.BookingId</td>
+                    <td>@booking.TripId</td>
+                    <td>@booking.BookingReference</td>
+                    <td>@booking.CheckInDate?.ToShortDateString()</td>
+                    <td>@booking.CheckOutDate?.ToShortDateString()</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@booking.BookingId" class="btn btn.sm btn-secondary" role="button">Details</a>
+                        <a asp-action="Edit" asp-route-id="@booking.BookingId" class="btn btn.sm btn-secondary" role="button">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@booking.BookingId" class="btn btn.sm btn-danger" role="button">Delete</a>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+}
+else
+{
+    <p>No room bookings available</p>
+}
+<a asp-controller="Room" asp-action="Index" asp-route-hotelId="@ViewBag.HotelId" class="btn btn-secondary">Return to Rooms</a>

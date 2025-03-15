@@ -1,0 +1,43 @@
+﻿@using TravelGroupAssignment1.Areas.HotelManagement.Models;
+
+@{
+    Layout = "_HotelSearchItem";
+}
+
+@model Hotel
+@{
+    ViewData["Title"] = "Delete Hotel";
+}
+
+<h2>@ViewData["Title"]</h2>
+<h3>Please confirm you are deleting this hotel.</h3>
+
+
+<div class="card">
+
+    <!-- basic layout of project details -->
+    <div class="card-body">
+        <h3 class="card-title">@Model.HotelName</h3>
+
+        <dl class="row">
+            <dt class="col-sm-3">Hotel ID</dt>
+            <dd class="col-sm-9">@Model.HotelId</dd>
+
+            <dt class="col-sm-3">Location</dt>
+            <dd class="col-sm-9">@Model.Location</dd>
+
+            <dt class="col-sm-3">Description</dt>
+            <dd class="col-sm-9">@Model.Description</dd>
+
+            <dt class="col-sm-3">Amenities</dt>
+            <dd class="col-sm-9">@Model.Amenities</dd>
+        </dl>
+
+    </div>
+
+</div>
+<form asp-action="DeleteConfirmed" asp-route-id="@Model.HotelId" method="post">
+    @Html.HiddenFor(model => model.HotelId)
+    <input type="submit" value="Delete" class="btn btn-danger" />
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

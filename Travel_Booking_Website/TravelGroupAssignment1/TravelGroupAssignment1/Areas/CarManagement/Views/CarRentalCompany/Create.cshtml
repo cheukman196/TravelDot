@@ -1,0 +1,51 @@
+﻿@using TravelGroupAssignment1.Areas.CarManagement.Models;
+
+@model CarRentalCompany // bound to an empty Project (no attributes set)
+
+@{
+    // Razor block
+    ViewData["Title"] = "Create Rental Company"; // set title of view
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<!-- post method calls the form submission action -->
+
+<form asp-action="Create" method="post">
+    <!-- Warning if input validation fails -->
+    <div asp-validation-summary="ModelOnly" class="text-warning"></div>
+
+    <div>
+        <label asp-for="CompanyName" class="control-label"></label>
+        <input asp-for="CompanyName" class="form-control" />
+        <span asp-validation-for="CompanyName" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="Location" class="control-label"></label>
+        <input asp-for="Location" class="form-control" />
+        <span asp-validation-for="Location" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="Rating" class="control-label">Rating (0-5)</label>
+        <input asp-for="Rating" min="1" max="5" class="form-control">
+        <span asp-validation-for="Rating" class="text-danger"></span>
+    </div>
+
+
+    <!-- submit button -->
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </div>
+
+
+</form>
+
+<!-- Validation scripts (if any) -->
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

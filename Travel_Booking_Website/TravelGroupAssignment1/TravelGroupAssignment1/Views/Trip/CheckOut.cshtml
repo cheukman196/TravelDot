@@ -1,0 +1,75 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using TravelGroupAssignment1.Areas.CustomerManagement.Models;
+
+
+@inject SignInManager<ApplicationUser> SignInManager
+
+@{
+    // Razor block
+    ViewData["Title"] = "Create Hotel"; // set title of view
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+<div class="col-md-12 text-center">
+ @if (!SignInManager.IsSignedIn(User))
+
+    {
+        <h2>Get Ready to Check out your trip</h2>
+        <br />
+
+        <div class="container">
+            <form asp-action="Checkout" method="post">
+                <!-- Warning if input validation fails -->
+                <div asp-validation-summary="ModelOnly" class="text-warning"></div>
+                <div class="row">
+                    <div class="col-md-6">
+
+                        <div class="form-group">
+                            <label for="email" class="control-label">Email</label>
+                            <input type="email" name="email" class="form-control" />
+                        </div>
+                     
+
+                    </div>
+                </div>
+                <div class="col-md-12 text-center">
+                    <button type="submit" class="btn btn-primary btn-lg" asp-route-email="" >Confirm Booking</button>
+                    <a asp-action="Index" class=" btn btn-secondary">Back</a>
+
+                </div>
+            </form>
+
+        </div>
+    }
+    else{
+    <h2>Thank you for booking your trip. Your booking will be sent to the email in your account!</h2>
+    <br />
+
+    <div class="container">
+        <form asp-action="Checkout" method="post">
+            <!-- Warning if input validation fails -->
+            <div asp-validation-summary="ModelOnly" class="text-warning"></div>
+
+            <div class="col-md-12 text-center">
+                <button type="submit" class="btn btn-primary btn-lg" asp-route-email="">Confirm Booking</button>
+                <a asp-action="Index" class=" btn btn-secondary">Back</a>
+
+            </div>
+        </form>
+
+    </div>
+
+    }
+
+
+
+
+
+
+<!-- Validation scripts (if any) -->
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

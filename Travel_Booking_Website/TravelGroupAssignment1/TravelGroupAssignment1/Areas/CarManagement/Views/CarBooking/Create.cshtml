@@ -1,0 +1,97 @@
+﻿@using System.Globalization
+@using TravelGroupAssignment1.Areas.CarManagement.Models;
+
+@model CarBooking
+
+@{
+    ViewData["Title"] = "Confirm Car Booking"; 
+    string carName = ViewBag.CarName as string;
+    string carType = ViewBag.CarType as string;
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="card shadow">
+    <div class="card-header" style="background: #FFF3CF;">
+        <h3 class="card-title"> @carName (@carType)</h3>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Price/Day</dt>
+            <dd class="col-sm-9">$@ViewBag.Car.PricePerDay</dd>
+
+            <dt class="col-sm-3">Max Passengers</dt>
+            <dd class="col-sm-9">@ViewBag.Car.MaxPassengers</dd>
+
+            <dt class="col-sm-3">Transmission</dt>
+            <dd class="col-sm-9">@ViewBag.Car.Transmission</dd>
+
+            <dt class="col-sm-3">Air Conditioning</dt>
+            <dd class="col-sm-9">@(ViewBag.Car.HasAirConditioning ? "Yes" : "No")</dd>
+
+            <dt class="col-sm-3">Unlimited Mileage</dt>
+            <dd class="col-sm-9">@(ViewBag.Car.HasUnlimitedMileage ? "Yes" : "No")</dd>
+
+            <dt class="col-sm-3">Rental Company</dt>
+            <dd class="col-sm-9">
+                @(ViewBag.Company != null ? ViewBag.Company.CompanyName : "")
+            </dd>
+
+            <dt class="col-sm-3">Pickup Location</dt>
+            <dd class="col-sm-9">
+                @(ViewBag.Company != null ? ViewBag.Company.Location : "")
+            </dd>
+
+        </dl>
+    </div>
+</div>
+<br />
+<form asp-action="CreateBooking" method="post">
+    <!-- Warning if input validation fails -->
+    <div asp-validation-summary="ModelOnly" class="text-warning"></div>
+        
+    <div>
+        <label asp-for="StartDate" class="control-label">Start Date</label>
+        @if (ViewBag.StartDate != null)
+        {
+            <input asp-for="StartDate" value="@ViewBag.StartDate.ToString("yyyy-MM-dd")" type="date" class="form-control" readonly />
+        }
+        else
+        {
+            <input asp-for="StartDate" value="@(DateTime.Now.AddDays(2).ToString("yyyy-MM-dd"))" type="date" class="form-control" />
+        }
+        <span asp-validation-for="StartDate" class="text-danger"></span>
+
+    </div>
+
+    <div>
+        <label asp-for="EndDate" class="control-label">Return Date</label>
+        @if (ViewBag.EndDate != null)
+        {
+            <input asp-for="EndDate" value="@ViewBag.EndDate.ToString("yyyy-MM-dd")" type="date" class="form-control" readonly/>
+        }
+        else
+        {
+            <input asp-for="EndDate" value="@(DateTime.Now.AddDays(2).ToString("yyyy-MM-dd"))" type="date" class="form-control"/>
+        }
+        <span asp-validation-for="EndDate" class="text-danger"></span>
+
+    </div>
+    <br />
+    <div class="form-group">
+        
+        @Html.HiddenFor(model => model.TripId)
+        @Html.HiddenFor(model => model.CarId)
+        @Html.HiddenFor(model => model.Car)
+        <input type="submit" value="Confirm" class="btn btn-primary" />
+        <a asp-controller="Car" asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </div>
+
+
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

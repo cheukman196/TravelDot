@@ -1,0 +1,53 @@
+﻿@using TravelGroupAssignment1.Areas.CarManagement.Models;
+
+
+@{
+    Layout = "_CarSearchItem";
+}
+
+@model Car
+@{
+    ViewData["Title"] = "Delete Car: Confirmation";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="card">
+
+    <!-- basic layout of project details -->
+    <div class="card-body">
+        <h3 class="card-title">@Model.Make @Model.Model</h3>
+        <p class="card-text">@Model.Type</p>
+
+        <dl class="row">
+            <dt class="col-sm-3">Price/Day</dt>
+            <dd class="col-sm-9">$@Model.PricePerDay</dd>
+
+            <dt class="col-sm-3">Max Passengers</dt>
+            <dd class="col-sm-9">@Model.MaxPassengers</dd>
+
+            <dt class="col-sm-3">Air Conditioning</dt>
+            <dd class="col-sm-9">@(Model.HasAirConditioning ? "Yes" : "No")</dd>
+
+            <dt class="col-sm-3">Unlimited Mileage</dt>
+            <dd class="col-sm-9">@(Model.HasUnlimitedMileage ? "Yes" : "No")</dd>
+
+            <dt class="col-sm-3">Rental Company</dt>
+            <dd class="col-sm-9">@(Model.Company != null ? @Model.Company.CompanyName : "")</dd>
+
+        </dl>
+    </div>
+
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    @Html.HiddenFor(model => model.CarId)
+    <input asp-action="DeleteConfirmed" asp-route-carId="@Model.CarId" type="submit" value="Delete" class="btn btn-danger" />
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

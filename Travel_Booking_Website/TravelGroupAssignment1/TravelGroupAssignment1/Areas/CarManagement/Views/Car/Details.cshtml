@@ -1,0 +1,163 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using TravelGroupAssignment1.Areas.CarManagement.Models;
+@inject SignInManager<ApplicationUser> SignInManager // @* inject sign in manager *@
+@inject UserManager<ApplicationUser> UserManager // @* inject sign in manager *@
+
+@model Car
+@{
+    ViewData["Title"] = "Car Details";
+}
+
+<h2>@ViewData["Title"]</h2>
+@if (this.User.IsInRole("SuperAdmin") || this.User.IsInRole("Admin"))
+{
+
+    Layout = "_CarSearchItem";
+
+
+    <div class="card">
+
+        <!-- basic layout of project details -->
+        <div class="card-body">
+            <h3 class="card-title">@Model.Make @Model.Model</h3>
+            <p class="card-text">@Model.Type</p>
+
+            <dl class="row">
+                <dt class="col-sm-3">Price/Day</dt>
+                <dd class="col-sm-9">$@Model.PricePerDay / Day</dd>
+
+                <dt class="col-sm-3">Max Passengers</dt>
+                <dd class="col-sm-9">@Model.MaxPassengers</dd>
+
+                <dt class="col-sm-3">Transmission</dt>
+                <dd class="col-sm-9">@Model.Transmission</dd>
+
+                <dt class="col-sm-3">Air Conditioning</dt>
+                <dd class="col-sm-9">@(Model.HasAirConditioning ? "Yes" : "No")</dd>
+
+                <dt class="col-sm-3">Unlimited Mileage</dt>
+                <dd class="col-sm-9">@(Model.HasUnlimitedMileage ? "Yes" : "No")</dd>
+
+                <dt class="col-sm-3">Rental Company</dt>
+                <dd class="col-sm-9">@(Model.Company != null ? @Model.Company.CompanyName : "")</dd>
+
+            </dl>
+        </div>
+
+    </div>
+    <a asp-action="Edit" asp-route-carId="@Model.CarId" class="btn btn-primary">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary">Return</a>
+
+
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="https://www.kbb.com/wp-content/uploads/2022/10/2023-toyota-rav4-prime-frt-3qtr.jpg?w=918" class="img-fluid shadow" alt="Car">
+            </div>
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h3 class="card-title">@Model.Make @Model.Model</h3>
+                        <h4 class="card-text">@Model.Type</h4>
+                        <br />
+                        <dl class="row">
+                            <dt class="col-sm-4">Price/Day</dt>
+                            <dd class="col-sm-8">$@Model.PricePerDay</dd>
+
+                            <dt class="col-sm-4">Max Passengers</dt>
+                            <dd class="col-sm-8">@Model.MaxPassengers</dd>
+
+                            <dt class="col-sm-4">Transmission</dt>
+                            <dd class="col-sm-8">@Model.Transmission</dd>
+
+                            <dt class="col-sm-4">Air Conditioning</dt>
+                            <dd class="col-sm-8">@(Model.HasAirConditioning ? "Yes" : "No")</dd>
+
+                            <dt class="col-sm-4">Unlimited Mileage</dt>
+                            <dd class="col-sm-8">@(Model.HasUnlimitedMileage ? "Yes" : "No")</dd>
+
+                            <dt class="col-sm-4">Rental Company</dt>
+                            <dd class="col-sm-8">
+                                @(Model.Company != null ? @Model.Company.CompanyName : "")
+                            </dd>
+
+                        </dl>
+
+                        <a asp-action="Index" class="btn btn-secondary">Return</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        
+         <div id="carComments">
+            <h3>Comments</h3>
+
+            <!-- load comments here -->
+            <div id="commentList" class="container">
+                <p>Please login to comment and review</p>
+            </div>
+            <br />
+
+            <!-- add comments here -->
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <div class="card">
+
+                    <div class="card-header">
+                        <h5>Post a Comment</h5>
+                    </div>
+                
+                    <div class="card-body">
+                        <form id="addCommentForm" class="mt-3">
+                            <input type="hidden" name="CarId" value="@Model.CarId" />
+                            <input type="hidden" name="Username" value="@UserManager.GetUserName(User)"/>
+
+                            <div class="form-group">
+                                <label for="Rating">Rating</label>
+                                <select name="Rating">
+                                    <option value="0">0</option>
+                                    <option value="0.5">0.5</option>
+                                    <option value="1.5">1.5</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="2.5">2.5</option>
+                                    <option value="3">3</option>
+                                    <option value="3.5">3.5</option>
+                                    <option value="4">4</option>
+                                    <option value="4.5">4.5</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <textarea name="Content" class="form-control" placeholder="Add a comment ..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-success">Post Comment</button>
+
+                        </form>
+                    </div>
+
+                </div>
+            }
+        </div>
+        
+    </div>
+}
+@section Scripts {
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <script src="~/js/carComment.js"></script>  
+    }  
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}
+
+
+

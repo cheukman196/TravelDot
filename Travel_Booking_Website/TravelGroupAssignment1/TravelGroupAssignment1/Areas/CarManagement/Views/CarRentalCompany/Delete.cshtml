@@ -1,0 +1,38 @@
+﻿@using TravelGroupAssignment1.Areas.CarManagement.Models;
+
+@model CarRentalCompany
+@{
+    ViewData["Title"] = "Delete Rental Company: Confirmation";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="card">
+
+    <!-- basic layout of project details -->
+    <div class="card-body">
+        <h3 class="card-title">@Model.CompanyName</h3>
+        <p>@Model.CarRentalCompanyId</p>
+
+        <dl class="row">
+            <dt class="col-sm-3">Location</dt>
+            <dd class="col-sm-9">@Model.Location</dd>
+
+            <dt class="col-sm-3">Rating</dt>
+            <dd class="col-sm-9">@(Model.Rating)/5</dd>
+        </dl>
+    </div>
+
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    @Html.HiddenFor(model => model.CarRentalCompanyId)
+    <input asp-action="DeleteConfirmed" asp-route-id="@Model.CarRentalCompanyId" type="submit" value="Delete" class="btn btn-danger" />
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
